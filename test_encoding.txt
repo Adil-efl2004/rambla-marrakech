@@ -1,0 +1,20 @@
+@php
+    $categoryLabels = [
+        'entree' => 'Entrées',
+        'plat' => 'Plats',
+        'dessert' => 'Desserts',
+        'boisson' => 'Boissons',
+    ];
+@endphp
+
+<x-app-layout>
+    <section class="relative overflow-hidden bg-ink text-parchment">
+        <img src="https://assets.lummi.ai/assets/Qmf95LNnjXeiUJsGqyCqSx8JJPnQUJGCUshYY9RoRinWyX?auto=format&w=1600" alt="Pâtisserie élégante" class="absolute inset-0 h-full w-full object-cover opacity-40" loading="lazy">
+        <div class="absolute inset-0 bg-gradient-to-r from-ink via-ink/85 to-ink/30"></div>
+        <div class="relative mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+            <p class="text-sm font-semibold uppercase tracking-[0.25em] text-brass">Room Service</p>
+            <h1 class="mt-4 font-display text-4xl font-semibold sm:text-5xl">Saveurs servies en chambre</h1>
+            <p class="mt-4 max-w-2xl text-parchment/80">Composez votre commande, ajustez les quantités, puis envoyez-la à l'équipe restaurant.</p>
+        </div>
+    </section>
+
