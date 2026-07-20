@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\ComplaintController as AdminComplaintController;
+use App\Http\Controllers\Auth\GoogleAuthController;
 use App\Http\Controllers\Client\ComplaintController;
 use App\Http\Controllers\Client\ReservationController;
 use App\Http\Controllers\Client\RoomServiceController;
@@ -13,6 +14,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+// ── Auth Google (Socialite) ──────────────────────────────────────────────────
+Route::get('/auth/google', [GoogleAuthController::class, 'redirectToGoogle'])
+    ->name('auth.google');
+Route::get('/auth/google/callback', [GoogleAuthController::class, 'handleGoogleCallback']);
+// ────────────────────────────────────────────────────────────────────────────
 
 Route::get('/dashboard', function (Request $request) {
     return match ($request->user()->role) {
