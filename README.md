@@ -1,59 +1,160 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🏨 Rambla Marrakech — Plateforme d'e-services hôteliers
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Application web Laravel permettant à un hôtel de dématérialiser ses services
+clients : réservation de chambres et de prestations, room service et gestion
+des réclamations techniques — avec trois espaces dédiés (Client, Serveur,
+Administration/Technique).
 
-## About Laravel
+> Projet de fin d'année — Ingénierie Informatique et Réseaux, EMSI Marrakech
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## ✨ Fonctionnalités
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Espace Client
+- 🛏️ Consultation des chambres avec photos, équipements et caractéristiques
+- 📅 Réservation avec calendrier interactif et vérification de disponibilité en temps réel
+- ❌ Annulation de réservation (jusqu'à 24h avant l'arrivée)
+- 🍽️ Commande de room service avec menu par catégorie
+- 🛠️ Dépôt de réclamations techniques, avec priorisation automatique
+- 🔐 Connexion classique ou via Google (OAuth)
 
-## Learning Laravel
+### Espace Serveur / Restaurant
+- 📋 Suivi des commandes de room service en temps réel
+- 🔄 Mise à jour du statut : reçue → en préparation → en livraison → livrée
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### Espace Administration / Technique
+- 🚨 Tableau de bord avec alertes sur les réclamations urgentes
+- ✅ Confirmation ou annulation des réservations en attente
+- 🧑‍🔧 Assignation et résolution des réclamations
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-## Laravel Sponsors
+## 🛠️ Stack technique
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+| Catégorie | Technologies |
+|---|---|
+| Backend | Laravel 12, PHP 8.2 |
+| Base de données | MySQL, Eloquent ORM |
+| Frontend | Blade, Tailwind CSS, Alpine.js |
+| Authentification | Laravel Breeze, Laravel Socialite (OAuth Google) |
+| Sélecteur de dates | Flatpickr |
+| Rôles & permissions | Middleware personnalisé (`CheckRole`) |
 
-### Premium Partners
+---
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## 🏗️ Architecture
 
-## Contributing
+L'application repose sur une architecture en couches classique :
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```
+Présentation (Blade + Tailwind)
+        ↓
+Application (Contrôleurs + Modèles Laravel)
+        ↓
+Données (MySQL via Eloquent)
+```
 
-## Code of Conduct
+Chaque espace (Client / Staff / Admin) est protégé par un groupe de routes
+dédié, sécurisé par le middleware de contrôle de rôle.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+---
 
-## Security Vulnerabilities
+## 🚀 Installation
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Prérequis
+- PHP >= 8.2
+- Composer
+- Node.js + npm
+- MySQL (via Laragon, XAMPP, ou installation standalone)
 
-## License
+### Étapes
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```bash
+# 1. Cloner le projet
+git clone https://github.com/Adil-efl2004/rambla-marrakech.git
+cd rambla-marrakech
+
+# 2. Installer les dépendances
+composer install
+npm install
+
+# 3. Configurer l'environnement
+cp .env.example .env
+php artisan key:generate
+```
+
+Configurer la base de données dans `.env` :
+
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=hotel_eservices
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+Pour la connexion Google (optionnel) :
+
+```env
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+GOOGLE_REDIRECT_URI=http://127.0.0.1:8000/auth/google/callback
+```
+
+```bash
+# 4. Créer la base de données, puis lancer les migrations + données de test
+php artisan migrate --seed
+
+# 5. Démarrer l'application (2 terminaux)
+php artisan serve
+npm run dev
+```
+
+Ouvrir : **http://127.0.0.1:8000**
+
+---
+
+## 👤 Comptes de test
+
+Après le seed, ces comptes sont disponibles (mot de passe : `password`) :
+
+| Rôle | Email |
+|---|---|
+| Serveur (restaurant) | `serveur@hotel.test` |
+| Technicien | `technicien@hotel.test` |
+| Admin | `admin@hotel.test` |
+
+Un compte client peut être créé via `/register`.
+
+---
+
+## 🗺️ Espaces de l'application
+
+| Espace | URL de départ | Rôle requis |
+|---|---|---|
+| Client | `/client/dashboard` | `client` |
+| Serveur / Restaurant | `/staff/orders` | `serveur` |
+| Admin / Technique | `/admin/dashboard` | `technicien`, `admin` |
+
+---
+
+## 🧩 Problèmes fréquents
+
+**Erreur de connexion à la base de données**
+→ Vérifie que ton service MySQL (Laragon/XAMPP) est bien démarré avant de
+lancer `php artisan migrate`.
+
+**Page sans style (CSS manquant)**
+→ Vérifie que `npm run dev` tourne bien dans un terminal actif.
+
+**Erreur de version PHP à l'installation**
+→ Le projet tourne sur Laravel 12 (compatible PHP 8.2+). Composer installera
+automatiquement la version compatible avec ton PHP.
+
+---
+
+## 📄 Licence
+
+Projet académique — EMSI Marrakech, 2025-2026.
