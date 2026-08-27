@@ -9,16 +9,18 @@
 
     $primaryLinks = match ($user?->role) {
         'client' => [
-            ['label' => 'Séjour', 'href' => route('client.dashboard'), 'active' => request()->routeIs('client.dashboard')],
-            ['label' => 'Réserver', 'href' => route('client.reservations.index'), 'active' => request()->routeIs('client.reservations.*')],
-            ['label' => 'Room Service', 'href' => route('client.room-service.index'), 'active' => request()->routeIs('client.room-service.*')],
-            ['label' => 'Assistance', 'href' => route('client.reclamations.index'), 'active' => request()->routeIs('client.reclamations.*')],
+            ['label' => 'Séjour',       'href' => route('client.dashboard'),          'active' => request()->routeIs('client.dashboard')],
+            ['label' => 'Chambres',     'href' => route('client.rooms.index'),         'active' => request()->routeIs('client.rooms.*')],
+            ['label' => 'Réserver',     'href' => route('client.reservations.index'),  'active' => request()->routeIs('client.reservations.*')],
+            ['label' => 'Room Service', 'href' => route('client.room-service.index'),  'active' => request()->routeIs('client.room-service.*')],
+            ['label' => 'Assistance',   'href' => route('client.reclamations.index'),  'active' => request()->routeIs('client.reclamations.*')],
         ],
         'serveur' => [
             ['label' => 'Commandes', 'href' => route('staff.orders.index'), 'active' => request()->routeIs('staff.orders.*')],
         ],
         'technicien', 'admin' => [
             ['label' => 'Tableau de bord', 'href' => route('admin.dashboard'), 'active' => request()->routeIs('admin.dashboard')],
+            ['label' => 'Réservations', 'href' => route('admin.reservations.index'), 'active' => request()->routeIs('admin.reservations.*')],
             ['label' => 'Réclamations', 'href' => route('admin.complaints.index'), 'active' => request()->routeIs('admin.complaints.*')],
         ],
         default => [],

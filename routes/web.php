@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\Admin\ComplaintController as AdminComplaintController;
+use App\Http\Controllers\Admin\ReservationController as AdminReservationController;
 use App\Http\Controllers\Auth\GoogleAuthController;
 use App\Http\Controllers\Client\ComplaintController;
 use App\Http\Controllers\Client\ReservationController;
+use App\Http\Controllers\Client\RoomController;
 use App\Http\Controllers\Client\RoomServiceController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Staff\OrderController;
@@ -52,8 +54,13 @@ Route::middleware(['auth', 'role:client'])->prefix('client')->name('client.')->g
     })->name('dashboard');
 
     Route::get('/reservations', [ReservationController::class, 'index'])->name('reservations.index');
+    Route::get('/reservations/check-availability', [ReservationController::class, 'checkAvailability'])->name('reservations.check-availability');
     Route::get('/reservations/create', [ReservationController::class, 'create'])->name('reservations.create');
     Route::post('/reservations', [ReservationController::class, 'store'])->name('reservations.store');
+    Route::patch('/reservations/{reservation}/cancel', [ReservationController::class, 'cancel'])->name('reservations.cancel');
+
+    Route::get('/rooms', [RoomController::class, 'index'])->name('rooms.index');
+    Route::get('/rooms/{room}', [RoomController::class, 'show'])->name('rooms.show');
 
     Route::get('/room-service', [RoomServiceController::class, 'index'])->name('room-service.index');
     Route::post('/room-service', [RoomServiceController::class, 'store'])->name('room-service.store');
@@ -79,6 +86,9 @@ Route::middleware(['auth', 'role:technicien,admin'])->prefix('admin')->name('adm
 
     Route::get('/complaints', [AdminComplaintController::class, 'index'])->name('complaints.index');
     Route::patch('/complaints/{complaint}', [AdminComplaintController::class, 'update'])->name('complaints.update');
+
+    Route::get('/reservations', [AdminReservationController::class, 'index'])->name('reservations.index');
+    Route::patch('/reservations/{reservation}', [AdminReservationController::class, 'update'])->name('reservations.update');
 });
 
 Route::middleware('auth')->group(function () {

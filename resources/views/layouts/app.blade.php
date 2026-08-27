@@ -13,6 +13,9 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+        <!-- Flatpickr (utilisé sur la page de réservation) -->
+        @stack('head-assets')
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-parchment text-ink">
@@ -32,5 +35,7 @@
                 {{ $slot }}
             </main>
         </div>
+
+        @stack('body-scripts')
     </body>
 </html>

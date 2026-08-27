@@ -10,6 +10,10 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 class Reservation extends Model
 {
     /**
+     * Délai minimum avant arrivée pour autoriser l'annulation par le client (en heures).
+     */
+    public const CANCELLATION_DEADLINE_HOURS = 24;
+    /**
      * @var list<string>
      */
     protected $fillable = [
@@ -58,5 +62,23 @@ class Reservation extends Model
     public function scopeActives(Builder $query): Builder
     {
         return $query->whereIn('status', ['en_attente', 'confirmee']);
+    }
+
+    /**
+     * Indique si le client peut encore annuler cette réservation.
+     *
+     * Conditions :
+     *  - status en_attente ou confirmee
+     *  - arrivée à plus de CANCELLATION_DEADLINE_HOURS heures dans le futur
+     */
+    public function isCancellableByClient(): bool
+    {
+        if (! in_array($this->status, ['en_attente', 'confirmee'], true)) {
+            return false;
+        }
+
+        return $this->start_datetime->isAfter(
+            now()->addHours(self::CANCELLATION_DEADLINE_HOURS)
+        );
     }
 }

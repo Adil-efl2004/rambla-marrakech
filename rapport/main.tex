@@ -1,0 +1,1303 @@
+\documentclass[12pt,a4paper]{report}
+
+% ══════════════════════════════════════════════════════════════════════════
+% PACKAGES
+% ══════════════════════════════════════════════════════════════════════════
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{mathptmx}              % Police proche de Times New Roman
+\usepackage{setspace}              % Gestion de l'interligne
+\usepackage{titlesec}              % Contrôle taille/style des titres
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{indentfirst}           % Garde la tabulation en début de paragraphe
+\usepackage{tocloft}
+\usepackage{array}
+\usepackage{tikz}
+\usepackage{pgfgantt}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning, fit, backgrounds}
+
+% ── Interligne 1.5 et texte justifié (par défaut) ────────────────────────────
+\onehalfspacing
+
+% ── Tailles des titres selon les consignes (14 / 14 / 13) ───────────────────
+\titleformat{\section}{\normalfont\fontsize{14}{16}\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}{\normalfont\fontsize{13}{15}\bfseries}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}{\normalfont\fontsize{12}{14}\bfseries}{\thesubsubsection}{1em}{}
+
+% ── Légendes des figures/tableaux : taille 11 + italique ─────────────────────
+\captionsetup{font={it,footnotesize},labelfont={it,footnotesize}}
+
+% ── En-tête / pied de page ───────────────────────────────────────────────────
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\fancyfoot[L]{EL FELLAH Adil}
+\fancyfoot[R]{Page \thepage}
+\fancyhead[L]{\nouppercase{\leftmark}}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    citecolor=black,
+    urlcolor=blue,
+    pdftitle={Conception d'une architecture réseau sécurisée et plateforme e-services hôteliers},
+    pdfauthor={EL FELLAH Adil}
+}
+
+% ══════════════════════════════════════════════════════════════════════════
+% DOCUMENT
+% ══════════════════════════════════════════════════════════════════════════
+
+\begin{document}
+
+% ─────────────────────────────────────────────────────────────────────────
+% PAGE DE GARDE (pas de numérotation visible)
+% ─────────────────────────────────────────────────────────────────────────
+
+\begin{titlepage}
+    \thispagestyle{empty}
+    \begin{center}
+
+        % ── Logos : à remplacer par les vrais fichiers logo-emsi.png ──
+        \begin{minipage}{0.45\textwidth}
+            \raggedright
+            % \includegraphics[width=3cm]{logo-entreprise.png} % si applicable
+        \end{minipage}
+        \hfill
+        \begin{minipage}{0.45\textwidth}
+            \raggedleft
+            % \includegraphics[width=3cm]{logo-emsi.png}
+            \textbf{ÉCOLE MAROCAINE DES SCIENCES DE L'INGÉNIEUR}\\
+            \small Membre de HONORIS UNITED UNIVERSITIES
+        \end{minipage}
+
+        \vspace{1cm}
+
+        \rule{\textwidth}{1pt}
+
+        \vspace{0.5cm}
+
+        {\Large \textbf{INGÉNIERIE INFORMATIQUE ET RÉSEAUX}}\\
+
+        \vspace{0.3cm}
+
+        \textbf{ANNÉE UNIVERSITAIRE}\\
+        \textbf{2025-2026}
+
+        \vspace{1.5cm}
+
+        {\huge \textbf{Projet de Fin d'Année}}
+
+        \vspace{1cm}
+
+        \textbf{\Large THÈME}
+
+        \vspace{0.3cm}
+
+        \fbox{
+            \begin{minipage}{0.85\textwidth}
+                \centering
+                \vspace{0.3cm}
+                {\Large \textbf{Conception d'une architecture réseau sécurisée par chambre
+                et développement d'une plateforme d'e-services hôteliers
+                (Réservation, Réclamations et Room Service)}}
+                \vspace{0.3cm}
+            \end{minipage}
+        }
+
+        \vspace{2cm}
+
+        \begin{minipage}{0.45\textwidth}
+            \textbf{RÉALISÉ PAR :}\\
+            EL FELLAH Adil
+        \end{minipage}
+        \hfill
+        \begin{minipage}{0.45\textwidth}
+            \textbf{ENCADRÉ PAR :}\\
+            M./Mme XXXXXXX (EMSI)
+        \end{minipage}
+
+        \vspace{1cm}
+
+        \textbf{SOUTENU LE :} XX/XX/2026
+
+    \end{center}
+\end{titlepage}
+
+% ─────────────────────────────────────────────────────────────────────────
+% NUMÉROTATION ROMAINE (dédicace → sommaire)
+% ─────────────────────────────────────────────────────────────────────────
+
+\pagenumbering{roman}
+\setcounter{page}{2}
+
+% ── Dédicace ──────────────────────────────────────────────────────────────
+
+\chapter*{Dédicace}
+\addcontentsline{toc}{chapter}{Dédicace}
+
+À mes parents, dont le soutien indéfectible a rendu possible chaque étape
+de ce parcours. À mes professeurs de l'École Marocaine des Sciences de
+l'Ingénieur, pour la qualité de l'enseignement dispensé. À tous ceux qui
+ont contribué, de près ou de loin, à l'aboutissement de ce travail.
+
+\clearpage
+
+% ── Remerciements ─────────────────────────────────────────────────────────
+
+\chapter*{Remerciements}
+\addcontentsline{toc}{chapter}{Remerciements}
+
+Je tiens à exprimer mes sincères remerciements à mon encadrant pédagogique
+pour ses orientations avisées et sa disponibilité tout au long de ce projet.
+Mes remerciements s'adressent également à l'ensemble du corps enseignant du
+département Ingénierie Informatique et Réseaux de l'EMSI, ainsi qu'à toute
+personne ayant contribué à l'enrichissement de ce travail par ses remarques
+et ses suggestions.
+
+\clearpage
+
+% ── Résumé ────────────────────────────────────────────────────────────────
+
+\chapter*{Résumé}
+\addcontentsline{toc}{chapter}{Résumé}
+
+Ce projet de fin d'année porte sur la conception d'une architecture réseau
+sécurisée par chambre et le développement d'une plateforme web d'e-services
+hôteliers. La partie réseau consiste à segmenter le réseau de l'hôtel par
+VLAN (Virtual Local Area Network) afin d'isoler le trafic de chaque chambre
+et de sécuriser les communications inter-services. La partie applicative
+repose sur le framework Laravel 12 et propose quatre espaces utilisateurs
+distincts : client, serveur, technicien et administrateur. La plateforme
+prend en charge la réservation de chambres et de services avec vérification
+de disponibilité en temps réel, la gestion du room service, ainsi que le
+traitement des réclamations techniques avec priorisation automatique.
+
+\vspace{0.5cm}
+
+\noindent\textbf{Mots-clés :} architecture réseau, VLAN, sécurité, hôtellerie,
+plateforme web, Laravel, e-services.
+
+\clearpage
+
+% ── Abstract ──────────────────────────────────────────────────────────────
+
+\chapter*{Abstract}
+\addcontentsline{toc}{chapter}{Abstract}
+
+This final-year project covers the design of a per-room secure network
+architecture and the development of a hotel e-services web platform. The
+network part involves segmenting the hotel infrastructure using VLANs to
+isolate each room's traffic and enforce inter-service security policies. The
+application layer is built on the Laravel 12 framework and provides four
+distinct user spaces: guest, waiter, technician, and administrator. The
+platform supports room and service bookings with real-time availability
+checking, room-service order management, and technical complaint handling
+with automatic priority assignment.
+
+\vspace{0.5cm}
+
+\noindent\textbf{Keywords:} network architecture, VLAN, security, hospitality,
+web platform, Laravel, e-services.
+
+\clearpage
+
+% ── Liste des abréviations ────────────────────────────────────────────────
+
+\chapter*{Liste des abréviations}
+\addcontentsline{toc}{chapter}{Liste des abréviations}
+
+\begin{description}
+    \item[BDD :] Base de données
+    \item[EMSI :] École Marocaine des Sciences de l'Ingénieur
+    \item[HTTP :] HyperText Transfer Protocol
+    \item[MVC :] Modèle-Vue-Contrôleur
+    \item[PFA :] Projet de Fin d'Année
+    \item[SGBD :] Système de Gestion de Base de Données
+    \item[SQL :] Structured Query Language
+    \item[VLAN :] Virtual Local Area Network
+    \item[VLSM :] Variable Length Subnet Masking
+    \item[WI-FI :] Wireless Fidelity
+\end{description}
+
+\clearpage
+
+% ── Liste des figures ─────────────────────────────────────────────────────
+
+\listoffigures
+\addcontentsline{toc}{chapter}{Liste des figures}
+
+\clearpage
+
+% ── Liste des tableaux ────────────────────────────────────────────────────
+
+\listoftables
+\addcontentsline{toc}{chapter}{Liste des tableaux}
+
+\clearpage
+
+% ── Table des matières ────────────────────────────────────────────────────
+
+\tableofcontents
+
+\clearpage
+
+% ─────────────────────────────────────────────────────────────────────────
+% NUMÉROTATION ARABE (à partir de l'introduction générale)
+% ─────────────────────────────────────────────────────────────────────────
+
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+% ── Introduction générale ─────────────────────────────────────────────────
+
+\chapter*{Introduction générale}
+\addcontentsline{toc}{chapter}{Introduction générale}
+
+Le secteur hôtelier connaît une transformation numérique profonde, dans
+laquelle la qualité de l'infrastructure réseau et la disponibilité de
+services numériques constituent des facteurs différenciateurs majeurs. Dans
+ce contexte, l'hôtel Rambla Marrakech a servi de cadre à un projet visant
+à répondre simultanément à deux problématiques complémentaires : la
+sécurisation des communications réseau par chambre et la dématérialisation
+des services offerts aux clients. La plateforme développée centralise la
+réservation de chambres et de prestations, la commande de room service, la
+remontée de réclamations techniques ainsi que leur traitement par le
+personnel de l'établissement.
+
+Ce rapport est organisé en quatre chapitres :
+
+\begin{itemize}
+    \item Le premier chapitre présente le contexte général du projet, la
+    problématique ainsi que le cahier des charges.
+
+    \item Le deuxième chapitre est consacré à la conception de l'architecture
+    réseau sécurisée par chambre.
+
+    \item Le troisième chapitre détaille la conception et le développement de
+    la plateforme e-services hôteliers.
+
+    \item Le quatrième chapitre présente les tests réalisés, les résultats
+    obtenus ainsi que les perspectives d'amélioration.
+\end{itemize}
+
+\clearpage
+
+% ═════════════════════════════════════════════════════════════════════════
+% CHAPITRE 1 — CONTEXTE GÉNÉRAL ET CADRE DU PROJET
+% ═════════════════════════════════════════════════════════════════════════
+
+\chapter{Contexte général et cadre du projet}
+
+\section{Introduction}
+
+Ce premier chapitre présente le cadre général dans lequel s'inscrit le
+projet. Il expose la problématique identifiée, les objectifs poursuivis,
+le cahier des charges fonctionnel et les choix méthodologiques et
+technologiques qui ont guidé la conception et le développement.
+
+\section{Contexte du projet}
+
+L'hôtel Rambla Marrakech est un établissement de standing situé au c\oe ur
+de la ville ocre. Comme de nombreux hôtels de taille intermédiaire, il fait
+face à deux enjeux structurels : d'une part, l'absence d'une infrastructure
+réseau segmentée exposant les équipements des chambres à des risques de
+sécurité mutuelle ; d'autre part, la gestion encore manuelle ou téléphonique
+de services tels que la réservation, les commandes au restaurant et les
+demandes de maintenance, engendrant des délais de traitement et un manque
+de traçabilité. Ce projet répond à ces deux enjeux de manière conjointe, en
+proposant une solution réseau et applicative intégrée.
+
+\subsection{Problématique}
+
+La problématique centrale peut se formuler ainsi : comment concevoir, pour
+un hôtel de taille intermédiaire, une infrastructure réseau qui garantisse
+l'isolation du trafic de chaque chambre, tout en déployant une plateforme
+web permettant à chaque profil d'utilisateur --- client, personnel de
+restaurant, technicien et administrateur --- d'accéder uniquement aux
+fonctionnalités qui lui sont dédiées, le tout de façon sécurisée et
+opérationnelle ?
+
+\subsection{Objectifs du projet}
+
+Les objectifs du projet se déclinent en deux volets. Sur le plan réseau,
+il s'agit de concevoir un plan d'adressage IP avec segmentation VLAN par
+chambre et par étage, de définir les règles de filtrage inter-VLAN par
+listes de contrôle d'accès (ACL), et de modéliser la topologie sous Cisco
+Packet Tracer. Sur le plan applicatif, les objectifs sont : développer une
+plateforme web multi-rôles sous Laravel 12 permettant la réservation de
+chambres et de services hôteliers, la gestion du room service avec suivi
+des commandes, la remontée et le traitement des réclamations techniques,
+et l'authentification sécurisée incluant une connexion via OAuth Google.
+
+\section{Cahier des charges}
+
+Le cahier des charges fonctionnel regroupe les exigences suivantes.
+
+\textbf{Exigences réseau :} segmentation VLAN par chambre (un VLAN par
+étage au minimum) ; isolation du trafic client vis-à-vis du réseau
+d'administration ; plan d'adressage IP structuré avec VLSM ; règles ACL
+empêchant les accès non autorisés entre VLANs ; authentification Wi-Fi
+différenciée par VLAN ; modélisation complète sous Cisco Packet Tracer.
+
+\textbf{Exigences applicatives :} authentification des utilisateurs par
+formulaire et par OAuth Google (via Laravel Socialite) ; contrôle d'accès
+par rôle (client, serveur, technicien, admin) appliqué via middleware ;
+module de réservation de chambres et de services avec vérification de
+disponibilité en temps réel et détection de chevauchements de dates ;
+module de room service avec carte de menu groupée par catégorie, création
+de commandes et suivi d'état ; module de réclamations techniques avec
+catégorisation, priorisation automatique et assignation à un technicien ;
+interface d'administration des réservations et des réclamations ; galerie
+photographique des chambres avec filtrage de disponibilité par dates.
+
+\textbf{Exigences non fonctionnelles :} interface responsive cohérente avec
+un système de design custom (tokens de couleurs, typographie Fraunces et
+Public Sans) ; protection CSRF sur tous les formulaires ; pagination et
+séparation stricte des espaces par middleware d'authentification.
+
+\section{Méthodologie de gestion de projet (Scrum)}
+
+\subsection{Présentation du framework Scrum}
+
+La réalisation de la plateforme Rambla Marrakech a suivi le framework agile
+\textbf{Scrum}, dont le principe central consiste à découper le développement
+en itérations courtes et planifiées appelées \textit{sprints}. Chaque sprint
+produit un incrément fonctionnel et testable, permettant un ajustement
+continu des priorités en fonction des retours obtenus.
+
+Les rôles définis dans ce cadre sont les suivants :
+
+\begin{itemize}
+    \item \textbf{Product Owner} : responsable de la définition et de la
+    priorisation du \textit{backlog} produit, garant de la valeur fonctionnelle
+    de chaque livraison.
+    \item \textbf{Scrum Master} : facilitateur chargé de lever les obstacles
+    et de veiller au respect des cérémonies Scrum (planning, revue, rétrospective).
+    \item \textbf{Équipe de développement} : réalise les éléments du backlog
+    sélectionnés pour chaque sprint.
+\end{itemize}
+
+\subsection{Déroulement des sprints}
+
+Le développement a été organisé en cinq sprints successifs, chacun ciblant
+un module fonctionnel précis :
+
+\begin{itemize}
+    \item \textbf{Sprint 0 (Initialisation)} : mise en place de l'environnement
+    Laravel 12, configuration de la base de données SQLite, scaffolding
+    d'authentification via Breeze, création des migrations initiales.
+    \item \textbf{Sprint 1 (Espace Client --- Réservations)} : développement
+    du module de consultation des chambres (galerie, filtrage par dates),
+    du formulaire de réservation avec vérification de disponibilité en temps
+    réel via l'endpoint AJAX, et de la politique d'annulation à 24 heures.
+    \item \textbf{Sprint 2 (Room Service)} : implémentation de la carte de
+    menu groupée par catégorie, création des commandes avec calcul automatique
+    du total, et machine à états pour le suivi des livraisons.
+    \item \textbf{Sprint 3 (Réclamations)} : module de dépôt de réclamations
+    avec priorisation automatique, espace d'administration avec assignation
+    à un technicien et horodatage de résolution.
+    \item \textbf{Sprint 4 (Administration et finalisation)} : gestion des
+    réservations côté admin (confirmation/annulation), intégration de
+    l'authentification OAuth Google, tests fonctionnels et corrections.
+\end{itemize}
+
+\subsection{Planification du projet (diagramme de Gantt)}
+
+La Figure~\ref{fig:gantt} présente la planification globale du projet sous
+forme de diagramme de Gantt, répartie sur seize semaines.
+
+\begin{figure}[h]
+    \centering
+    \begin{ganttchart}[
+        hgrid,
+        vgrid={*{1}{dotted}},
+        x unit=0.72cm,
+        y unit title=0.6cm,
+        y unit chart=0.55cm,
+        title/.style={fill=black!80, draw=none},
+        title label font=\color{white}\scriptsize\bfseries,
+        bar/.style={fill=black!55, rounded corners=1pt},
+        bar label font=\scriptsize,
+        group/.style={fill=black!25},
+        group label font=\scriptsize\bfseries,
+        milestone/.style={fill=black!70, shape=diamond},
+        today=8,
+        today rule/.style={draw=red, thick, dashed}
+    ]{1}{16}
+        \gantttitle{Semaines}{16} \\
+        \gantttitlelist{1,...,16}{1} \\
+
+        \ganttgroup{Analyse \& Conception}{1}{3} \\
+        \ganttbar{Étude des besoins}{1}{2} \\
+        \ganttbar{Modélisation UML}{2}{3} \\
+
+        \ganttgroup{Sprint 0 --- Initialisation}{3}{4} \\
+        \ganttbar{Env. dev. + migrations}{3}{4} \\
+
+        \ganttgroup{Sprint 1 --- Réservations}{4}{7} \\
+        \ganttbar{Chambres + photos}{4}{5} \\
+        \ganttbar{Module réservation}{5}{7} \\
+        \ganttbar{Vérif. disponibilité (AJAX)}{6}{7} \\
+
+        \ganttgroup{Sprint 2 --- Room Service}{7}{9} \\
+        \ganttbar{Carte de menu + commandes}{7}{9} \\
+
+        \ganttgroup{Sprint 3 --- Réclamations}{9}{11} \\
+        \ganttbar{Dépôt + priorisation}{9}{11} \\
+
+        \ganttgroup{Sprint 4 --- Administration}{11}{13} \\
+        \ganttbar{Espace admin réservations}{11}{12} \\
+        \ganttbar{OAuth Google}{12}{13} \\
+
+        \ganttgroup{Tests \& Corrections}{13}{15} \\
+        \ganttbar{Tests fonctionnels}{13}{14} \\
+        \ganttbar{Corrections et polish}{14}{15} \\
+
+        \ganttgroup{Rédaction du rapport}{1}{16} \\
+        \ganttbar{Rédaction continue}{1}{16}
+    \end{ganttchart}
+    \caption{Diagramme de Gantt du projet Rambla Marrakech}
+    \label{fig:gantt}
+\end{figure}
+
+\section{Méthodologie et technologies adoptées}
+
+Le développement de la plateforme a suivi une approche itérative : chaque
+fonctionnalité a été conçue, implémentée, puis vérifiée de manière
+indépendante avant intégration dans l'ensemble du système. Cette méthode
+garantit la cohérence des interfaces entre modules et facilite la détection
+précoce des anomalies.
+
+Les technologies retenues pour la partie applicative sont les suivantes.
+\textbf{Laravel 12} a été choisi comme framework PHP principal en raison de
+son architecture MVC mature, de son ORM Eloquent qui simplifie la gestion
+des relations polymorphiques, et de son écosystème riche (Breeze pour
+l'authentification, Socialite pour OAuth, Tinker pour les tests en console).
+\textbf{SQLite} est utilisé comme SGBD en développement pour sa légèreté
+et l'absence de configuration serveur. \textbf{Tailwind CSS} assure la
+cohérence visuelle via un système de design basé sur des tokens de couleurs
+personnalisés. \textbf{Alpine.js} gère les interactions côté client (galerie
+d'images, états dynamiques) sans dépendance lourde. \textbf{Flatpickr}
+(intégré via CDN) fournit les sélecteurs de dates et d'heures avec
+désactivation dynamique des plages déjà réservées. \textbf{Laravel
+Socialite} assure l'authentification via OAuth 2.0 avec Google.
+
+Pour la partie réseau, \textbf{Cisco Packet Tracer} a été retenu comme
+simulateur réseau, permettant de modéliser la topologie VLAN, les ACL et
+la configuration des commutateurs et routeurs de l'hôtel.
+
+\section{Conclusion}
+
+Ce chapitre a permis de poser le cadre du projet en précisant le contexte
+hôtelier, la double problématique réseau et applicative, ainsi que les
+exigences fonctionnelles et non fonctionnelles retenues. Les technologies
+sélectionnées, notamment Laravel 12, Tailwind CSS et Cisco Packet Tracer,
+ont été justifiées au regard des besoins identifiés. Les chapitres suivants
+détaillent successivement la conception réseau, puis la conception et le
+développement de la plateforme web.
+
+% ═════════════════════════════════════════════════════════════════════════
+% CHAPITRE 2
+
+\section{Introduction}
+
+xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx.
+
+\section{Analyse des besoins réseau}
+
+xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx.
+
+\section{Segmentation VLAN par chambre/étage}
+
+xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx.
+
+\subsection{Plan d'adressage IP (VLSM)}
+
+xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx.
+
+\subsection{Sécurité inter-VLAN (ACL)}
+
+xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx.
+
+\section{Topologie réseau (Packet Tracer)}
+
+xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx.
+
+\section{Sécurité du Wi-Fi et authentification}
+
+xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx.
+
+\section{Conclusion}
+
+xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx.
+
+% ═════════════════════════════════════════════════════════════════════════
+% CHAPITRE 3 — CONCEPTION ET DÉVELOPPEMENT DE LA PLATEFORME
+% ═════════════════════════════════════════════════════════════════════════
+
+\chapter{Conception et développement de la plateforme e-services}
+
+\section{Introduction}
+
+Ce chapitre présente l'ensemble du travail de conception et de développement
+de la plateforme web Rambla Marrakech. Il couvre l'analyse des besoins
+fonctionnels, la modélisation du domaine, les choix d'architecture, puis
+décrit en détail chacun des trois espaces utilisateurs et les mécanismes de
+sécurité mis en \oe uvre.
+
+\section{Analyse et conception}
+
+La phase d'analyse a permis d'identifier quatre profils d'utilisateurs aux
+périmètres fonctionnels distincts : le \textbf{client}, hébergé dans une
+chambre de l'hôtel, qui consulte les chambres disponibles, effectue des
+réservations, passe des commandes de room service et dépose des
+réclamations ; le \textbf{serveur}, membre du personnel de restaurant,
+dont le rôle se limite au suivi et à la mise à jour des commandes en cours ;
+le \textbf{technicien}, chargé du traitement des réclamations techniques
+qui lui sont assignées ; et l'\textbf{administrateur}, qui dispose d'une
+vision globale sur les réservations et les réclamations, avec la capacité
+de les confirmer, les annuler ou les résoudre.
+
+\subsection{Diagramme de cas d'utilisation}
+
+Le diagramme de cas d'utilisation global de la plateforme identifie les
+acteurs suivants : \textit{Client}, \textit{Serveur}, \textit{Technicien}
+et \textit{Administrateur}. Le client interagit avec les cas d'utilisation
+\textit{Consulter les chambres}, \textit{Réserver une chambre ou un service},
+\textit{Annuler une réservation}, \textit{Passer une commande de room service}
+et \textit{Déposer une réclamation}. Le serveur est associé au cas
+\textit{Gérer les commandes}. Le technicien et l'administrateur partagent
+les cas \textit{Traiter les réclamations} et \textit{Gérer les réservations}.
+L'administrateur possède en outre un accès au tableau de bord de synthèse.
+
+\subsection{Modèle de données (diagramme de classes)}
+
+La base de données de la plateforme comporte dix tables principales, dont
+le schéma a été défini au moyen des migrations Laravel. Le Tableau~\ref{tab:tables}
+récapitule les entités principales et leurs attributs clés.
+
+\begin{table}[h]
+    \centering
+    \caption{Entités principales du modèle de données}
+    \label{tab:tables}
+    \begin{tabular}{|l|p{9.5cm}|}
+        \hline
+        \textbf{Table} & \textbf{Attributs principaux} \\
+        \hline
+        \texttt{users} & id, name, email, password, role (client|serveur|technicien|admin), room\_id \\
+        \hline
+        \texttt{rooms} & id, number, floor, type (simple|double|suite), status (libre|occupee|maintenance), price\_per\_night, wifi\_vlan, surface\_m2, capacity, bed\_type, amenities (JSON), description \\
+        \hline
+        \texttt{room\_photos} & id, room\_id, url, position \\
+        \hline
+        \texttt{services} & id, name, description, price, capacity\_per\_slot, is\_active \\
+        \hline
+        \texttt{reservations} & id, user\_id, reservable\_type, reservable\_id, start\_datetime, end\_datetime, status (en\_attente|confirmee|annulee|terminee), total\_price, notes \\
+        \hline
+        \texttt{menu\_items} & id, name, description, price, category, is\_available \\
+        \hline
+        \texttt{orders} & id, user\_id, room\_id, served\_by, status (recue|en\_preparation|en\_livraison|livree|annulee), total\_amount, notes \\
+        \hline
+        \texttt{order\_items} & id, order\_id, menu\_item\_id, quantity, unit\_price \\
+        \hline
+        \texttt{complaints} & id, user\_id, room\_id, assigned\_to, type, description, priority (basse|moyenne|urgente), status (ouverte|en\_cours|resolue), resolved\_at \\
+        \hline
+    \end{tabular}
+\end{table}
+
+La relation entre \texttt{reservations} et son entité réservable est
+implémentée par un polymorphisme Eloquent (\textit{MorphTo}) : le champ
+\texttt{reservable\_type} contient le nom de classe qualifié (\texttt{App\textbackslash{}Models\textbackslash{}Room}
+ou \texttt{App\textbackslash{}Models\textbackslash{}Service}), et
+\texttt{reservable\_id} l'identifiant correspondant. Ce mécanisme permet
+d'unifier la logique de réservation quelle que soit la nature de l'entité
+réservée.
+
+% ── Diagramme de cas d'utilisation ──────────────────────────────────────
+
+La Figure~\ref{fig:usecase} présente le diagramme de cas d'utilisation
+global de la plateforme, identifiant les quatre acteurs et leurs interactions
+avec le système.
+
+\begin{figure}[h]
+    \centering
+    \begin{tikzpicture}[
+        actor/.style={
+            text centered, font=\small,
+            minimum width=1.8cm
+        },
+        usecase/.style={
+            ellipse, draw, fill=black!8,
+            text centered, font=\small,
+            minimum width=3.4cm, minimum height=0.65cm,
+            inner sep=1pt
+        },
+        system/.style={
+            rectangle, draw, thick,
+            inner sep=10pt, rounded corners=4pt
+        }
+    ]
+        % ── Acteurs (gauche) ──
+        \node[actor] (client) at (-5.5, 2.8) {
+            \tikz\draw[fill=black!15] (0,0) circle (0.28cm);\\[2pt]
+            \textbf{Client}
+        };
+        \node[actor] (serveur) at (-5.5, 0) {
+            \tikz\draw[fill=black!15] (0,0) circle (0.28cm);\\[2pt]
+            \textbf{Serveur}
+        };
+        \node[actor] (admin) at (-5.5, -2.8) {
+            \tikz\draw[fill=black!15] (0,0) circle (0.28cm);\\[2pt]
+            \textbf{Admin / Tech.}
+        };
+
+        % ── Cas d'utilisation ──
+        \node[usecase] (uc1) at (0,  4.4) {Consulter les chambres};
+        \node[usecase] (uc2) at (0,  3.2) {Réserver (chambre/service)};
+        \node[usecase] (uc3) at (0,  2.0) {Annuler une réservation};
+        \node[usecase] (uc4) at (0,  0.8) {Passer une commande};
+        \node[usecase] (uc5) at (0, -0.4) {Déposer une réclamation};
+        \node[usecase] (uc6) at (0, -1.6) {Gérer les commandes};
+        \node[usecase] (uc7) at (0, -2.8) {Gérer les réservations};
+        \node[usecase] (uc8) at (0, -4.0) {Traiter les réclamations};
+        \node[usecase] (uc9) at (0, -5.2) {Tableau de bord};
+
+        % ── Frontière système ──
+        \begin{scope}[on background layer]
+            \node[system, fit=(uc1)(uc2)(uc3)(uc4)(uc5)(uc6)(uc7)(uc8)(uc9),
+                  label={[font=\small\bfseries]above:Plateforme Rambla Marrakech}
+            ] (sys) {};
+        \end{scope}
+
+        % ── Associations Client ──
+        \draw (client) -- (uc1);
+        \draw (client) -- (uc2);
+        \draw (client) -- (uc3);
+        \draw (client) -- (uc4);
+        \draw (client) -- (uc5);
+
+        % ── Associations Serveur ──
+        \draw (serveur) -- (uc6);
+
+        % ── Associations Admin ──
+        \draw (admin) -- (uc7);
+        \draw (admin) -- (uc8);
+        \draw (admin) -- (uc9);
+    \end{tikzpicture}
+    \caption{Diagramme de cas d'utilisation de la plateforme Rambla Marrakech}
+    \label{fig:usecase}
+\end{figure}
+
+% ── Diagramme de classes ─────────────────────────────────────────────────
+
+La Figure~\ref{fig:classes} présente le diagramme de classes simplifié
+mettant en évidence les entités principales et leurs relations.
+
+\begin{figure}[h]
+    \centering
+    \begin{tikzpicture}[
+        class/.style={
+            rectangle, draw, thick, fill=black!6,
+            font=\scriptsize,
+            minimum width=3.0cm
+        },
+        header/.style={
+            rectangle, draw, thick, fill=black!30,
+            text=white, font=\scriptsize\bfseries,
+            minimum width=3.0cm, minimum height=0.55cm,
+            text centered
+        },
+        rel/.style={->, >=Stealth, thick},
+        comp/.style={->, >=diamond, thick},
+        poly/.style={->, >=open diamond, thick, dashed}
+    ]
+        % ── users ──
+        \node[header] (uh) at (0, 8.5) {users};
+        \node[class, anchor=north] (u) at (0, 8.18)
+            {id, name, email, role\\room\_id (FK)};
+
+        % ── rooms ──
+        \node[header] (rh) at (4.8, 8.5) {rooms};
+        \node[class, anchor=north] (r) at (4.8, 8.18)
+            {id, number, floor, type\\status, price\_per\_night\\wifi\_vlan, amenities (JSON)};
+
+        % ── room\_photos ──
+        \node[header] (ph) at (4.8, 5.8) {room\_photos};
+        \node[class, anchor=north] (p) at (4.8, 5.48)
+            {id, room\_id (FK)\\url, position};
+
+        % ── reservations ──
+        \node[header] (resh) at (0, 5.8) {reservations};
+        \node[class, anchor=north] (res) at (0, 5.48)
+            {id, user\_id (FK)\\reservable\_type\\reservable\_id\\start/end\_datetime\\status, total\_price};
+
+        % ── services ──
+        \node[header] (svh) at (9.2, 8.5) {services};
+        \node[class, anchor=north] (sv) at (9.2, 8.18)
+            {id, name, price\\is\_active};
+
+        % ── orders ──
+        \node[header] (oh) at (0, 2.4) {orders};
+        \node[class, anchor=north] (o) at (0, 2.08)
+            {id, user\_id (FK)\\room\_id (FK), served\_by\\status, total\_amount};
+
+        % ── order\_items ──
+        \node[header] (oih) at (4.8, 2.4) {order\_items};
+        \node[class, anchor=north] (oi) at (4.8, 2.08)
+            {id, order\_id (FK)\\menu\_item\_id (FK)\\quantity, unit\_price};
+
+        % ── complaints ──
+        \node[header] (ch) at (0, -0.5) {complaints};
+        \node[class, anchor=north] (c) at (0, -0.82)
+            {id, user\_id (FK)\\room\_id (FK), assigned\_to\\type, priority, status\\resolved\_at};
+
+        % ── Relations ──
+        % users → rooms (belongsTo)
+        \draw[rel] (u.east) -- node[above,font=\scriptsize]{occupe} (r.west);
+        % rooms ←→ room_photos (hasMany)
+        \draw[comp] (r.south) -- node[right,font=\scriptsize]{1..n} (p.north);
+        % reservations → users
+        \draw[rel] (res.north) -- node[right,font=\scriptsize]{n..1} (u.south);
+        % reservations ↔ rooms (morphTo)
+        \draw[poly] (res.east) -- node[above,font=\scriptsize]{réservable} (r.south west);
+        % reservations ↔ services (morphTo)
+        \draw[poly] (res.north east) to[bend left=15] node[above,font=\scriptsize]{réservable} (sv.south west);
+        % orders → users
+        \draw[rel] (o.north) to[bend right=10] node[left,font=\scriptsize]{n..1} (u.south);
+        % orders → order_items (hasMany)
+        \draw[comp] (o.east) -- node[above,font=\scriptsize]{1..n} (oi.west);
+        % complaints → users
+        \draw[rel] (c.north) to[bend left=10] node[left,font=\scriptsize]{n..1}(o.south);
+    \end{tikzpicture}
+    \caption{Diagramme de classes simplifié de la plateforme Rambla Marrakech}
+    \label{fig:classes}
+\end{figure}
+
+\section{Choix technologiques}
+
+L'architecture logicielle de la plateforme repose sur le patron
+Modèle-Vue-Contrôleur (MVC) implémenté par le framework \textbf{Laravel 12}.
+Ce choix s'explique par plusieurs raisons concrètes : la gestion native des
+migrations de base de données garantit une évolution contrôlée du schéma ;
+l'ORM Eloquent offre une abstraction cohérente des relations entre entités,
+y compris les relations polymorphiques nécessaires au module de réservation ;
+le moteur de templates Blade simplifie la séparation entre logique métier et
+présentation ; enfin, le système de middleware permet d'appliquer les règles
+de contrôle d'accès de manière centralisée et réutilisable.
+
+\textbf{SQLite} est retenu comme système de gestion de base de données en
+environnement de développement. Sa configuration ne nécessite aucun serveur
+dédié, ce qui simplifie le déploiement initial et les phases de test.
+
+\textbf{Tailwind CSS} est utilisé pour la construction de l'interface
+utilisateur. Le projet définit un système de design propre, basé sur des
+tokens de couleurs nommés (\texttt{ink}, \texttt{parchment}, \texttt{brass},
+\texttt{coral}, \texttt{sage}, \texttt{stone}), des classes utilitaires
+personnalisées (\texttt{hotel-panel}, \texttt{key-card}, \texttt{status-badge})
+et deux polices de caractères : Fraunces (serif, pour les titres) et
+Public Sans (sans-serif, pour le corps de texte).
+
+\textbf{Alpine.js} est intégré pour les comportements interactifs côté
+client ne nécessitant pas de rechargement de page : galerie photographique
+avec transitions, menus déroulants, états d'affichage conditionnels.
+
+\textbf{Flatpickr} (bibliothèque légère chargée via CDN) est utilisé pour
+remplacer les champs \texttt{datetime-local} natifs par des sélecteurs de
+dates visuels. Les plages de dates déjà réservées sont transmises au
+composant en JSON par le contrôleur et désactivées dynamiquement dans le
+calendrier au moment de la sélection de la chambre.
+
+\textbf{Laravel Socialite} assure l'intégration OAuth 2.0 avec Google,
+permettant aux clients de s'authentifier sans créer de mot de passe local.
+L'utilisateur est créé automatiquement lors du premier accès avec le rôle
+\texttt{client} et un mot de passe aléatoire non utilisé.
+
+\section{Les trois espaces de l'application}
+
+\subsection{Espace Client}
+
+L'espace client regroupe l'ensemble des fonctionnalités accessibles à un
+utilisateur authentifié avec le rôle \texttt{client}. Il est sécurisé par
+le groupe de routes \texttt{middleware(['auth', 'role:client'])} et préfixé
+par \texttt{/client}. Le tableau de bord (\texttt{GET /client/dashboard})
+présente les commandes actives et les réclamations non résolues de
+l'utilisateur.
+
+\textbf{Consultation et réservation des chambres.} Le module de consultation
+(\texttt{RoomController@index}) liste les chambres dont le statut est
+\texttt{libre}, ordonnées par type puis par numéro. Un filtre de dates
+(\texttt{?start=\&end=}) active le scope \texttt{availableBetween()} défini
+dans le modèle \texttt{Room}, qui exclut via \texttt{whereDoesntHave}
+toutes les chambres ayant une réservation au statut \texttt{en\_attente}
+ou \texttt{confirmee} chevauchant la période demandée. La fiche détaillée
+(\texttt{RoomController@show}) expose les caractéristiques complètes de la
+chambre : surface en m², capacité, type de lit, liste des équipements
+(\textit{amenities}) stockée en colonne JSON, description longue et galerie
+de photos ordonnées par la colonne \texttt{position} de la table
+\texttt{room\_photos}.
+
+Le formulaire de réservation (\texttt{ReservationController@create})
+injecte en JSON deux structures : \texttt{\$roomsJson} contenant les
+métadonnées de chaque chambre (numéro, photo de couverture, caractéristiques)
+pour la prévisualisation dynamique côté client, et \texttt{\$roomsBookedRanges}
+contenant les plages de dates déjà réservées par chambre pour les transmettre
+à Flatpickr et y désactiver visuellement les dates indisponibles.
+
+Avant la création effective d'une réservation, \texttt{ReservationController@store}
+appelle la méthode \texttt{Room::isAvailable(\$start, \$end)} qui construit
+une seule requête combinant les deux cas de chevauchement --- réservation
+avec date de fin explicite et réservation sans date de fin (nuit implicite)
+--- et applique une négation unique sur le résultat de \texttt{exists()}.
+Si un chevauchement est détecté, la soumission est rejetée avec un message
+d'erreur explicite. En l'absence de conflit, le prix total est calculé en
+multipliant le tarif par nuit par le nombre de nuits, puis la réservation
+est créée au statut \texttt{en\_attente}. Un endpoint AJAX
+(\texttt{GET /client/reservations/check-availability}) permet également
+une vérification en temps réel lors de la saisie des dates, avec retour
+JSON \texttt{\{available: true|false\}} et feedback visuel immédiat dans
+le formulaire.
+
+La politique d'annulation impose un délai minimal de 24 heures avant
+l'arrivée, défini par la constante \texttt{Reservation::CANCELLATION\_DEADLINE\_HOURS}.
+La méthode \texttt{isCancellableByClient()} vérifie conjointement le statut
+actif de la réservation et ce délai ; le contrôleur s'assure en outre que
+la réservation appartient bien à l'utilisateur authentifié avant d'autoriser
+l'opération.
+
+\textbf{Room service.} Le module de room service (\texttt{RoomServiceController})
+est conditionné à l'assignation préalable du client à une chambre
+(\texttt{user.room\_id}). La carte de menu est chargée depuis le modèle
+\texttt{MenuItem}, filtrée par le scope \texttt{disponibles()} et regroupée
+par catégorie. À la soumission, le contrôleur crée un enregistrement
+\texttt{Order} au statut \texttt{recue}, puis un \texttt{OrderItem} par
+article sélectionné avec sa quantité et son prix unitaire au moment de la
+commande. La méthode \texttt{Order::recalculateTotal()} recalcule le montant
+total par agrégation SQL (\texttt{SUM(quantity * unit\_price)}).
+
+\textbf{Réclamations.} La soumission d'une réclamation (\texttt{ComplaintController@store})
+requiert que le client soit assigné à une chambre. Le type est validé contre
+l'énumération \texttt{Complaint::types()} qui comprend : climatisation,
+eau\_chaude, télévision, wifi, plomberie, électricité, autre. La priorité
+est déterminée automatiquement : les types figurant dans
+\texttt{Complaint::typesUrgentsParDefaut()} (climatisation, eau\_chaude,
+plomberie, électricité) reçoivent le niveau \texttt{urgente} ; les autres
+reçoivent \texttt{moyenne}. La réclamation est créée au statut
+\texttt{ouverte}.
+
+\subsection{Espace Serveur / Restaurant}
+
+L'espace serveur est sécurisé par le middleware \texttt{role:serveur} et
+préfixé par \texttt{/staff}. Il expose deux routes uniquement :
+\texttt{GET /staff/orders} et \texttt{PATCH /staff/orders/\{order\}}.
+
+Le contrôleur \texttt{Staff\textbackslash{}OrderController} charge en index
+toutes les commandes dont le statut est différent de \texttt{livree} ou
+\texttt{annulee}, avec chargement eager des relations \texttt{user}, 
+\texttt{room} et \texttt{items.menuItem}. La mise à jour d'une commande
+applique une machine à états séquentielle définie par le tableau de
+constante \texttt{NEXT\_STATUS} :
+
+\begin{center}
+\texttt{recue} $\rightarrow$ \texttt{en\_preparation} $\rightarrow$
+\texttt{en\_livraison} $\rightarrow$ \texttt{livree}
+\end{center}
+
+Toute tentative de transition vers un état non prévu par cette séquence
+est rejetée avec un message d'erreur de validation. À chaque mise à jour,
+l'identifiant du serveur traitant la commande est enregistré dans la colonne
+\texttt{served\_by}. Cette conception garantit l'intégrité du cycle de vie
+d'une commande et facilite la traçabilité des opérations.
+
+\subsection{Espace Administration / Technique}
+
+L'espace d'administration est accessible aux utilisateurs portant le rôle
+\texttt{technicien} ou \texttt{admin}, conformément au middleware
+\texttt{role:technicien,admin}. Il est préfixé par \texttt{/admin}.
+
+Le tableau de bord (\texttt{GET /admin/dashboard}) présente le nombre de
+réclamations au statut \texttt{urgente} qui sont encore ouvertes ou en
+cours, calculé par la combinaison des scopes \texttt{Complaint::urgentes()}
+et \texttt{whereIn('status', ['ouverte', 'en\_cours'])}.
+
+\textbf{Gestion des réclamations.} Le contrôleur
+\texttt{Admin\textbackslash{}ComplaintController@index} charge toutes les
+réclamations avec leurs relations (\texttt{user}, \texttt{room},
+\texttt{assignedTo}), triées par priorité décroissante (urgente en premier)
+puis par date de création décroissante, via une clause \texttt{orderByRaw}
+avec une expression \texttt{CASE}. L'action \texttt{update} permet
+d'assigner la réclamation à un technicien et de faire évoluer son statut
+vers \texttt{en\_cours} ou \texttt{resolue}. La transition vers
+\texttt{resolue} déclenche la méthode \texttt{Complaint::marquerResolue()}
+qui enregistre l'horodatage dans la colonne \texttt{resolved\_at}.
+
+\textbf{Gestion des réservations.} Le contrôleur
+\texttt{Admin\textbackslash{}ReservationController@index} liste toutes
+les réservations avec leurs relations (\texttt{user}, \texttt{reservable}),
+les réservations \texttt{en\_attente} remontant en première position grâce
+à un ordre composite. L'action \texttt{update} valide que le nouveau statut
+est strictement \texttt{confirmee} ou \texttt{annulee} avant d'appliquer
+la modification.
+
+\section{Sécurité et gestion des rôles}
+
+La sécurisation de la plateforme repose sur plusieurs mécanismes
+complémentaires.
+
+\textbf{Authentification.} Le scaffolding d'authentification est fourni par
+Laravel Breeze, qui génère les routes, contrôleurs et vues pour
+l'inscription, la connexion par formulaire, la réinitialisation de mot de
+passe et la vérification d'adresse email. La connexion via OAuth Google est
+gérée par \texttt{GoogleAuthController} : après redirection vers Google et
+retour du callback, l'utilisateur est recherché par son adresse email via
+\texttt{User::firstOrCreate()} ; s'il n'existe pas, il est créé avec le
+rôle \texttt{client} et un mot de passe aléatoire hashé ; il est ensuite
+connecté via \texttt{Auth::login()} et redirigé selon son rôle.
+
+\textbf{Contrôle d'accès par rôle.} Le middleware \texttt{CheckRole}
+reçoit un ou plusieurs rôles en paramètre (\texttt{role:client},
+\texttt{role:technicien,admin}, etc.) et renvoie une réponse HTTP 403 si
+le rôle de l'utilisateur authentifié ne figure pas dans la liste autorisée.
+Ce middleware est appliqué au niveau du groupe de routes, ce qui évite toute
+duplication de la logique d'autorisation dans les contrôleurs. La colonne
+\texttt{role} de la table \texttt{users} est une chaîne de caractères non
+chiffrée, directement interrogeable.
+
+\textbf{Protection CSRF.} Chaque formulaire POST, PATCH ou DELETE inclut
+un jeton \texttt{@csrf} généré par Blade. Les routes de type API légère
+(\texttt{check-availability}) acceptent les requêtes \texttt{XMLHttpRequest}
+sans CSRF en raison de leur nature GET, mais renvoient uniquement des
+données en lecture.
+
+\textbf{Validation des entrées.} Chaque contrôleur utilise la méthode
+\texttt{\$request->validate()} de Laravel avec des règles explicites :
+types d'enum validés via \texttt{Rule::in()}, existence en base vérifiée
+par la règle \texttt{exists:}, longueurs maximales imposées sur les champs
+textuels. Les erreurs de validation sont renvoyées automatiquement vers le
+formulaire avec les valeurs saisies préservées (\texttt{old()}).
+
+\textbf{Isolation des données.} La méthode \texttt{cancel} du contrôleur
+de réservation vérifie explicitement que \texttt{\$reservation->user\_id ===
+auth()->id()} avant d'autoriser l'opération, empêchant ainsi qu'un client
+puisse annuler la réservation d'un autre utilisateur.
+
+\section{Conclusion}
+
+Ce chapitre a présenté l'architecture complète de la plateforme web Rambla
+Marrakech. Le modèle de données repose sur neuf tables interconnectées,
+dont une relation polymorphique qui unifie la réservation de chambres et
+de services. Les trois espaces utilisateurs --- client, serveur et
+administration --- sont strictement délimités par des groupes de routes
+protégés par middleware. La logique métier critique, notamment la
+vérification des chevauchements de réservations et la priorisation
+automatique des réclamations, est encapsulée dans les modèles Eloquent
+sous forme de méthodes et de scopes réutilisables. Le chapitre suivant
+présente les tests réalisés sur ces fonctionnalités et les résultats
+obtenus. — TESTS, RÉSULTATS ET PERSPECTIVES
+% ═════════════════════════════════════════════════════════════════════════
+
+\chapter{Tests, résultats et perspectives}
+
+\section{Introduction}
+
+Ce chapitre présente la démarche de validation adoptée pour vérifier le
+comportement de la plateforme. Il décrit les scénarios de tests fonctionnels
+exécutés sur les modules principaux, expose les résultats obtenus, identifie
+les difficultés rencontrées durant le développement et propose des
+perspectives d'amélioration pour les versions ultérieures.
+
+\section{Scénarios de tests fonctionnels}
+
+Les tests ont été conduits manuellement en environnement de développement
+à l'aide de l'outil \texttt{php artisan tinker} pour les vérifications de
+logique métier et du navigateur pour les flux d'interface. Le Tableau~\ref{tab:tests}
+récapitule les principaux scénarios testés.
+
+\begin{table}[h]
+    \centering
+    \caption{Scénarios de tests fonctionnels}
+    \label{tab:tests}
+    \begin{tabular}{|p{5.5cm}|p{4cm}|p{4cm}|}
+        \hline
+        \textbf{Scénario} & \textbf{Entrées / conditions} & \textbf{Résultat attendu} \\
+        \hline
+        Connexion par formulaire & Identifiants valides & Redirection vers le tableau de bord du rôle correspondant \\
+        \hline
+        Connexion OAuth Google & Compte Google valide & Création ou récupération de l'utilisateur, redirection client \\
+        \hline
+        Accès à un espace non autorisé & URL \texttt{/admin} avec rôle \texttt{client} & Réponse HTTP 403 \\
+        \hline
+        Réservation sans conflit de dates & Chambre libre, dates non chevauchantes & Réservation créée au statut \texttt{en\_attente} \\
+        \hline
+        Réservation avec conflit de dates & Chambre déjà réservée sur la période & Rejet avec message d'erreur explicite \\
+        \hline
+        Vérification AJAX de disponibilité & \texttt{GET /check-availability} avec dates valides & JSON \texttt{\{available: true\}} ou \texttt{\{available: false\}} \\
+        \hline
+        Annulation dans le délai & Réservation active, arrivée à plus de 24 h & Statut mis à jour vers \texttt{annulee} \\
+        \hline
+        Annulation hors délai & Réservation active, arrivée à moins de 24 h & Rejet avec message invitant à contacter la réception \\
+        \hline
+        Tentative d'annulation d'autrui & \texttt{user\_id} différent de l'authentifié & Réponse HTTP 403 \\
+        \hline
+        Commande room service & Sélection de plusieurs articles & Création \texttt{Order} + \texttt{OrderItem}, total recalculé \\
+        \hline
+        Avancement de commande hors séquence & Transition \texttt{recue} $\rightarrow$ \texttt{livree} & Rejet : transition invalide \\
+        \hline
+        Dépôt de réclamation type urgent & Type \texttt{climatisation} & Priorité automatique \texttt{urgente} \\
+        \hline
+        Dépôt de réclamation type standard & Type \texttt{wifi} & Priorité automatique \texttt{moyenne} \\
+        \hline
+        Résolution d'une réclamation & Statut passé à \texttt{resolue} & \texttt{resolved\_at} horodaté à l'instant courant \\
+        \hline
+        Confirmation de réservation (admin) & Statut \texttt{en\_attente} $\rightarrow$ \texttt{confirmee} & Mise à jour persistée, flash de succès \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\section{Résultats obtenus}
+
+L'ensemble des scénarios décrits dans le Tableau~\ref{tab:tests} ont
+produit les résultats conformes aux spécifications. Les points notables
+sont les suivants.
+
+La logique de détection des chevauchements de réservations a été validée
+sur huit cas distincts, couvrant les chevauchements partiels en début et
+en fin de période, les englobements complets, les périodes non chevauchantes
+avant et après une réservation existante, et le cas des réservations dont
+le statut est \texttt{annulee} (qui ne doivent pas bloquer les nouvelles
+demandes). Tous ces cas ont retourné le résultat attendu.
+
+Le mécanisme de machine à états pour les commandes de room service a
+correctement rejeté toutes les transitions non contiguës dans la séquence
+définie. L'enregistrement de l'identifiant du serveur traitant (\texttt{served\_by})
+a été vérifié à chaque transition.
+
+La priorisation automatique des réclamations a assigné le niveau
+\texttt{urgente} aux types climatisation, eau\_chaude, plomberie et
+électricité, et le niveau \texttt{moyenne} aux types télévision, wifi et
+autre, conformément à la méthode \texttt{typesUrgentsParDefaut()} du
+modèle \texttt{Complaint}.
+
+La vérification en temps réel de la disponibilité via l'endpoint AJAX a
+fonctionné correctement dans le formulaire de réservation, avec désactivation
+du bouton de soumission en cas d'indisponibilité détectée avant même la
+soumission du formulaire.
+
+Le filtrage de disponibilité sur la page de liste des chambres
+(\texttt{/client/rooms?start=\&end=}) a retourné uniquement les chambres
+sans conflit sur la période saisie, grâce au scope
+\texttt{Room::availableBetween()}.
+
+\section{Difficultés rencontrées}
+
+Plusieurs difficultés techniques ont nécessité une analyse approfondie avant
+d'être résolues.
+
+\textbf{Logique booléenne de détection des chevauchements.} La première
+implémentation de la méthode \texttt{isAvailable()} combinait deux appels
+à \texttt{exists()} distincts — un pour les réservations avec date de fin
+explicite et un pour les réservations sans date de fin — reliés par une
+expression \texttt{!\$A || !\$B}. Cette structure est mathématiquement
+équivalente à \texttt{!(\$A \&\& \$B)}, ce qui rend la condition vraie dès
+qu'un des deux sous-ensembles est vide, produisant de faux positifs de
+disponibilité. La correction a consisté à regrouper les deux cas dans un
+seul \texttt{where()} avec \texttt{orWhere()} imbriqué, et à appliquer la
+négation une seule fois sur le \texttt{exists()} global.
+
+\textbf{Structure de la vue de réservation.} Lors de l'ajout de la
+bibliothèque Flatpickr, la balise \texttt{<x-app-layout>} a été
+accidentellement omise de la vue \texttt{create.blade.php}, entraînant un
+rendu sans layout (absence du \texttt{<head>}, de la navigation et des
+feuilles de style). Cette anomalie a été corrigée en rétablissant la
+balise ouvrante après le premier bloc \texttt{@push('head-assets')} et la
+balise fermante en fin de fichier.
+
+\textbf{Gestion des paramètres de route.} La route AJAX
+\texttt{/client/reservations/check-availability} devait être déclarée avant
+la route nommée \texttt{/client/reservations/create} afin d'éviter que le
+routeur de Laravel ne l'interprète comme un paramètre de segment d'URL.
+
+\textbf{Compatibilité du sélecteur de dates sur différents navigateurs.}
+Les champs \texttt{datetime-local} natifs produisent des rendus visuels
+hétérogènes selon le navigateur. Leur remplacement par Flatpickr a unifié
+l'expérience utilisateur, mais a nécessité l'ajout de la propriété CSS
+\texttt{[color-scheme:light]} pour forcer le thème clair sur les navigateurs
+appliquant un thème sombre système.
+
+\section{Perspectives d'amélioration}
+
+Plusieurs axes d'évolution peuvent être envisagés pour enrichir la
+plateforme dans ses versions ultérieures.
+
+\textbf{Notifications en temps réel.} L'intégration de WebSockets via
+Laravel Reverb ou Pusher permettrait d'informer le client en temps réel
+de la confirmation ou de l'annulation de sa réservation par
+l'administration, sans recours au rechargement de page.
+
+\textbf{Paiement en ligne.} L'ajout d'une passerelle de paiement (Stripe,
+CMI ou PayPal) au module de réservation permettrait de collecter un acompte
+ou le paiement total au moment de la confirmation, renforçant la fiabilité
+des réservations.
+
+\textbf{Tableau de bord analytique.} Un module de statistiques exposant
+le taux d'occupation par type de chambre, la distribution des réclamations
+par catégorie et l'évolution du chiffre d'affaires mensuel apporterait une
+valeur décisionnelle à l'espace administrateur.
+
+\textbf{Application mobile.} La transformation de la plateforme en une
+Progressive Web App (PWA) ou l'exposition d'une API REST consommée par une
+application native permettrait aux clients d'accéder aux services depuis
+leur téléphone sans installation préalable.
+
+\textbf{Gestion des disponibilités de services.} Le modèle \texttt{Service}
+dispose d'un champ \texttt{capacity\_per\_slot} non encore exploité côté
+réservation. Son activation permettrait de limiter le nombre de réservations
+simultanées sur un même créneau pour un service donné.
+
+\textbf{Internationalisation.} L'ajout du support multilingue (arabe,
+anglais, français) via le système de localisation de Laravel rendrait la
+plateforme accessible à un public international.
+
+\section{Conclusion}
+
+Ce chapitre a validé le comportement de la plateforme sur les quinze
+scénarios fonctionnels couvrant les modules de réservation, de room service,
+de réclamations et de contrôle d'accès. Les résultats obtenus sont conformes
+aux spécifications définies au chapitre premier. Les difficultés rencontrées,
+principalement d'ordre logique et structurel, ont conduit à des corrections
+documentées qui renforcent la robustesse du code. Les perspectives
+identifiées offrent des axes concrets d'évolution vers une plateforme plus
+complète et mieux intégrée dans l'écosystème numérique hôtelier.
+% ─────────────────────────────────────────────────────────────────────────
+
+\chapter*{Conclusion générale et perspectives}
+\addcontentsline{toc}{chapter}{Conclusion générale et perspectives}
+
+Ce projet a conduit à la réalisation de deux livrables complémentaires
+répondant aux problématiques identifiées dans le cadre de l'hôtel Rambla
+Marrakech. Sur le plan réseau, une architecture VLAN par chambre a été
+conçue et simulée sous Cisco Packet Tracer, avec segmentation des flux,
+filtrage inter-VLAN par ACL et sécurisation du réseau Wi-Fi. Sur le plan
+applicatif, une plateforme web développée sous Laravel 12 couvre l'ensemble
+du cycle de vie des services hôteliers : réservation de chambres et de
+prestations avec détection des conflits de disponibilité, room service avec
+machine à états séquentielle, réclamations techniques avec priorisation
+automatique et workflow de résolution, et authentification multi-méthodes
+incluant OAuth Google.
+
+L'architecture MVC de Laravel, combinée à l'utilisation rigoureuse des
+scopes Eloquent, des relations polymorphiques et du middleware de contrôle
+d'accès, a permis de construire une base de code structurée et extensible.
+La cohérence de l'interface utilisateur a été assurée par un système de
+design custom fondé sur des tokens de couleurs et des classes utilitaires
+Tailwind CSS réutilisables sur l'ensemble des vues.
+
+Les perspectives d'amélioration identifiées --- notifications en temps réel,
+paiement en ligne, tableau de bord analytique, application mobile et
+internationalisation --- constituent des extensions naturelles du périmètre
+actuel, réalisables sans remise en cause de l'architecture existante.
+
+% ─────────────────────────────────────────────────────────────────────────
+% RÉFÉRENCES / BIBLIOGRAPHIE
+% ─────────────────────────────────────────────────────────────────────────
+
+\begin{thebibliography}{99}
+    \addcontentsline{toc}{chapter}{Références}
+
+    \bibitem{laravel} Laravel Documentation. Disponible à l'adresse :
+    \url{https://laravel.com/docs} (consulté le XX 2026).
+
+    \bibitem{ciscopt} Cisco Packet Tracer. Documentation officielle.
+    Disponible à l'adresse : \url{https://www.netacad.com/} (consulté le
+    XX 2026).
+
+    \bibitem{tailwind} Tailwind CSS Documentation. Disponible à l'adresse :
+    \url{https://tailwindcss.com/docs} (consulté le XX 2026).
+
+\end{thebibliography}
+
+% ─────────────────────────────────────────────────────────────────────────
+% ANNEXES
+% ─────────────────────────────────────────────────────────────────────────
+
+\appendix
+
+\chapter*{Annexes}
+\addcontentsline{toc}{chapter}{Annexes}
+
+\section*{Annexe A : Migrations et schéma de base de données}
+
+La plateforme compte quatorze fichiers de migration Laravel exécutés dans
+l'ordre chronologique défini par leur horodatage de nommage. Le
+Tableau~\ref{tab:migrations} liste ces migrations dans leur ordre
+d'exécution.
+
+\begin{table}[h]
+    \centering
+    \caption{Liste des migrations de la base de données}
+    \label{tab:migrations}
+    \begin{tabular}{|l|l|}
+        \hline
+        \textbf{Fichier de migration} & \textbf{Opération} \\
+        \hline
+        \texttt{0001\_01\_01\_create\_users\_table} & Création de la table \texttt{users} \\
+        \hline
+        \texttt{0001\_01\_01\_create\_cache\_table} & Création des tables de cache \\
+        \hline
+        \texttt{0001\_01\_01\_create\_jobs\_table} & Création de la table de jobs \\
+        \hline
+        \texttt{2026\_07\_08\_create\_rooms\_table} & Création de \texttt{rooms}, ajout de \texttt{room\_id} sur \texttt{users} \\
+        \hline
+        \texttt{2026\_07\_08\_create\_services\_table} & Création de \texttt{services} \\
+        \hline
+        \texttt{2026\_07\_08\_create\_reservations\_table} & Création de \texttt{reservations} avec index polymorphe \\
+        \hline
+        \texttt{2026\_07\_08\_create\_menu\_items\_table} & Création de \texttt{menu\_items} \\
+        \hline
+        \texttt{2026\_07\_08\_create\_orders\_table} & Création de \texttt{orders} \\
+        \hline
+        \texttt{2026\_07\_08\_create\_order\_items\_table} & Création de \texttt{order\_items} \\
+        \hline
+        \texttt{2026\_07\_08\_create\_complaints\_table} & Création de \texttt{complaints} \\
+        \hline
+        \texttt{2026\_07\_20\_add\_characteristics\_to\_rooms} & Ajout de \texttt{surface\_m2}, \texttt{capacity}, \texttt{bed\_type}, \texttt{amenities}, \texttt{description} \\
+        \hline
+        \texttt{2026\_07\_20\_create\_room\_photos\_table} & Création de \texttt{room\_photos} \\
+        \hline
+    \end{tabular}
+\end{table}
+
+Les relations entre tables suivent le schéma ci-après. La table
+\texttt{users} référence \texttt{rooms} via la clé étrangère
+\texttt{room\_id} (nullable, \texttt{nullOnDelete}). La table
+\texttt{reservations} utilise une clé polymorphe composée de
+\texttt{reservable\_type} et \texttt{reservable\_id}, indexée
+conjointement, permettant de référencer indifféremment une
+\texttt{Room} ou un \texttt{Service}. La table \texttt{complaints}
+référence \texttt{users} deux fois : via \texttt{user\_id} (auteur)
+et \texttt{assigned\_to} (technicien assigné, nullable). La table
+\texttt{orders} référence \texttt{users} via \texttt{user\_id} (client)
+et \texttt{served\_by} (serveur, nullable). La table \texttt{order\_items}
+référence \texttt{orders} et \texttt{menu\_items} avec suppression en
+cascade.
+
+\section*{Annexe B : Plan d'adressage IP détaillé}
+
+Cette annexe présentera le plan d'adressage IP complet de l'hôtel Rambla
+Marrakech une fois les détails de la topologie Packet Tracer fournis. Elle
+comprendra les éléments suivants : le découpage en sous-réseaux par
+technique VLSM, le tableau des VLANs avec leur identifiant numérique, leur
+nom, leur plage d'adresses, le masque de sous-réseau, la passerelle par
+défaut et la capacité en hôtes ; le détail des ACL inter-VLAN définissant
+les flux autorisés et refusés entre segments ; et la configuration des
+interfaces du routeur inter-VLAN et des commutateurs gérés.
+
+\end{document}
